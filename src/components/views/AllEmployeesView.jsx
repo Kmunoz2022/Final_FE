@@ -12,7 +12,7 @@ const AllEmployeesView = ({ employees, onDelete }) => {
               <Link to={`/employees/${employee.id}`}>
                 {employee.firstname} {employee.lastname} - {employee.department}
               </Link>
-              <button onClick={() => onDelete(employee.id)}>Delete</button>
+              <button onClick={() => onDelete(employee.id)}>X</button>
             </li>
           ))}
         </ul>
