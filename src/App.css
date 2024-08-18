@@ -3,9 +3,9 @@
   padding: 100px 5% 50px 5%; 
   max-width: 1200px;
   margin: 0 auto;
-  background-color: white; /* White background for the home content */
+  background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .hero {

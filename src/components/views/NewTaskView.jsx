@@ -31,7 +31,6 @@ const NewTaskView = ({ formData, setFormData, handleSubmit, errors }) => {
         <button type="submit">Add Task</button>
       </form>
 
-      {/* Go Back Button */}
       <button onClick={handleGoBack}>Go Back</button>
     </div>
   );
