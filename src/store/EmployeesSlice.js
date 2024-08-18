@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const initialState = [];
 
+// Reducer
 export function employeesReducer(state = initialState, action) {
   switch (action.type) {
     case 'employees/employeesLoaded':
@@ -21,7 +22,9 @@ export function employeesReducer(state = initialState, action) {
 
 const PATH = 'http://localhost:5001/api/employees';
 
+// Thunks
 
+/** FETCH ALL EMPLOYEES */
 export const fetchEmployees = () => async (dispatch) => {
   try {
     const res = await axios.get(PATH);
@@ -31,6 +34,7 @@ export const fetchEmployees = () => async (dispatch) => {
   }
 };
 
+/** DELETE AN EMPLOYEE */
 export const deleteEmployee = (employeeId) => async (dispatch) => {
   try {
     await axios.delete(`${PATH}/${employeeId}`);
@@ -40,6 +44,7 @@ export const deleteEmployee = (employeeId) => async (dispatch) => {
   }
 };
 
+/** ADD A NEW EMPLOYEE */
 export const addEmployee = (employee) => async (dispatch) => {
   try {
     const res = await axios.post(PATH, employee);
@@ -47,9 +52,11 @@ export const addEmployee = (employee) => async (dispatch) => {
     return res.data;
   } catch (err) {
     console.error('Failed to add employee:', err);
+    return null;
   }
 };
 
+/** EDIT AN EMPLOYEE */
 export const editEmployee = (employee) => async (dispatch) => {
   try {
     const res = await axios.put(`${PATH}/${employee.id}`, employee);

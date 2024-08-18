@@ -1,36 +1,54 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function AllTasksView({ tasks, deleteTask }) {
+const AllTasksView = ({ tasks, onDelete, handleSubmit, formData, setFormData, errors }) => {
+  const navigate = useNavigate();
 
-  if (!tasks.length) {
-    return (
-      <>
-        <Link to={`/`}><button>Back to Home</button></Link>
-        <Link to={`/tasks/new`}><button>Add Task</button></Link>
-        <div>There are no tasks.</div>
-      </>
-    );
-  }
+  const handleGoBack = () => {
+    navigate(-1); 
+  };
+
   return (
-    <div id="bgview" style={{display: "flex", flexDirection: "column", padding: "8px", minWidth: "500px"}} >
-      <Link to={`/`}><button style={{margin: "8px"}}>Back to Home</button></Link>
-      <Link to={`/tasks/new`}><button style={{margin: "8px"}}>Add Task</button></Link>
-      <div style={ulStyle}>
-        {tasks.map((todo, idx) => {
-          let styleBool = idx === tasks.length - 1 ? liStyleLastChild : liStyle;
-          return (
-            <div key={todo.id} style={styleBool}>
-              <h4>Task #{idx+1}: <Link to={`/tasks/${todo.id}`}>{todo.content}</Link></h4>
-              <h5>Assigned to: Employee {todo.employeeId}</h5>
-              <h5>{todo.completed ? "COMPLETED" : "IN PROGRESS"}</h5>
-              <button onClick={() => deleteTask(todo.id)}>Delete</button>
-            </div>
-          );
-        })}
-      </div>
+    <div>
+      <h1>All Tasks</h1>
+      {tasks.length > 0 ? (
+        <ul>
+          {tasks.map(task => (
+            <li key={task.id}>
+              {task.content} - {task.priority} - {task.completed ? "Completed" : "Pending"}
+              <button onClick={() => onDelete(task.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No tasks found.</p>
+      )}
+      
+      {/* Add New Task Form */}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="content"
+          placeholder="Task Content"
+          value={formData.content}
+          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+        />
+        {errors.content && <span>{errors.content}</span>}
+        <input
+          type="text"
+          name="priority"
+          placeholder="Priority"
+          value={formData.priority}
+          onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+        />
+        {errors.priority && <span>{errors.priority}</span>}
+        <button type="submit">Add Task</button>
+      </form>
+
+      {/* Go Back Button */}
+      <button onClick={handleGoBack}>Go Back</button>
     </div>
   );
-
-}
+};
 
 export default AllTasksView;
