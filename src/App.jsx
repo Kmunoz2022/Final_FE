@@ -4,10 +4,19 @@ import { Link } from "react-router-dom";
 function App() {
   return (
     <div className="home">
-      <h1>WELCOME</h1>
-      <Link to={`employees`}><button>All Employees</button></Link>
-      <Link to={`tasks`}><button>All Tasks</button></Link>
-      <Link to={`tasks/new`}><button>Add New Task</button></Link>
+      <header className="hero">
+        <h1>Welcome to the Employee Management System</h1>
+        <p>Manage your tasks and employees efficiently</p>
+      </header>
+
+      <div className="navigation-buttons">
+        <Link to="/employees">
+          <button className="nav-button">Manage Employees</button>
+        </Link>
+        <Link to="/tasks">
+          <button className="nav-button">Manage Tasks</button>
+        </Link>
+      </div>
     </div>
   );
 }
