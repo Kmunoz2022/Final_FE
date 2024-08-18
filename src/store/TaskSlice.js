@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const initialState = [];
 
 export function tasksReducer(state = initialState, action) {
@@ -20,41 +19,41 @@ export function tasksReducer(state = initialState, action) {
   }
 }
 
-const PATH = 'http://localhost:5001/api/tasks';
-
+const PATH = 'http://localhost:5001/api/tasks'; // Correct API path
 
 export const fetchTasks = () => async (dispatch) => {
   try {
-    const res = await axios.get(PATH);
-    dispatch({ type: 'tasks/tasksLoaded', payload: res.data });
+    let res = await axios.get(`${PATH}`);
+    dispatch({type: 'tasks/tasksLoaded', payload: res.data});
   } catch (err) {
     console.error('Failed to fetch tasks:', err);
   }
 };
 
-export const deleteTask = (taskId) => async (dispatch) => {
+export const deleteTask = taskId => async dispatch => {
   try {
     await axios.delete(`${PATH}/${taskId}`);
-    dispatch({ type: 'tasks/taskDeleted', payload: taskId });
+    dispatch({type: 'tasks/taskDeleted', payload: taskId});
   } catch (err) {
     console.error('Failed to delete task:', err);
   }
 };
 
-export const addTask = (task) => async (dispatch) => {
+export const addTask = task => async (dispatch) => {
   try {
-    const res = await axios.post(PATH, task);
-    dispatch({ type: 'tasks/taskCreated', payload: res.data });
+    let res = await axios.post(`${PATH}`, task);
+    dispatch({type: 'tasks/taskCreated', payload: res.data});
     return res.data;
   } catch (err) {
     console.error('Failed to add task:', err);
+    return null;
   }
 };
 
-export const editTask = (task) => async (dispatch) => {
+export const editTask = task => async dispatch => {
   try {
-    const res = await axios.put(`${PATH}/${task.id}`, task);
-    dispatch({ type: 'tasks/taskUpdated', payload: res.data });
+    let res = await axios.put(`${PATH}/${task.id}`, task);
+    dispatch({type: 'tasks/taskUpdated', payload: res.data});
   } catch (err) {
     console.error('Failed to edit task:', err);
   }

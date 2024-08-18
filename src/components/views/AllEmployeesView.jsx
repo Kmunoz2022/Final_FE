@@ -1,24 +1,30 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 const AllEmployeesView = ({ employees, onDelete }) => {
-    if (!employees.length) {
-      return <p>No employees found.</p>;
-    }
-  
-    return (
-      <div>
-        <h2>All Employees</h2>
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/'); // Navigate to the home page or the main page you want
+  };
+
+  return (
+    <div>
+      <button onClick={handleBackClick}>Back to Home</button>
+      {employees.length > 0 ? (
         <ul>
-          {employees.map((employee) => (
+          {employees.map(employee => (
             <li key={employee.id}>
               {employee.firstname} {employee.lastname} - {employee.department}
               <button onClick={() => onDelete(employee.id)}>Delete</button>
             </li>
           ))}
         </ul>
-      </div>
-    );
-  };
-  
-  export default AllEmployeesView;
+      ) : (
+        <p>No employees found.</p>
+      )}
+    </div>
+  );
+};
+
+export default AllEmployeesView;

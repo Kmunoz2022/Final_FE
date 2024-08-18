@@ -1,72 +1,58 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchEmployees } from "../../store/EmployeesSlice";
-import AllEmployeesView from "../views/AllEmployeesView";
-import { useEffect } from "react";
-import { addEmployee } from "../../store/EmployeesSlice";
-import { deleteEmployee } from "../../store/EmployeesSlice";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchEmployees, addEmployee, deleteEmployee } from "../../store/EmployeesSlice";
+import AllEmployeesView from '../views/AllEmployeesView';
 
-const AllEmployeesContainer = () => {
-    const dispatch = useDispatch();
-    const employees = useSelector((state) => state.employees);
-    const [newEmployee, setNewEmployee] = useState({
-      firstname: "",
-      lastname: "",
-      department: ""
-    });
-  
-    useEffect(() => {
-      dispatch(fetchEmployees());
-    }, [dispatch]);
-  
-    const handleDelete = (id) => {
-      dispatch(deleteEmployee(id));
-    };
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setNewEmployee({
-        ...newEmployee,
-        [name]: value
-      });
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      dispatch(addEmployee(newEmployee));
-      setNewEmployee({ firstname: "", lastname: "", department: "" });
-    };
-  
-    return (
-      <div>
-        <AllEmployeesView employees={employees} onDelete={handleDelete} />
-        <h2>Add New Employee</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="firstname"
-            value={newEmployee.firstname}
-            onChange={handleInputChange}
-            placeholder="First Name"
-          />
-          <input
-            type="text"
-            name="lastname"
-            value={newEmployee.lastname}
-            onChange={handleInputChange}
-            placeholder="Last Name"
-          />
-          <input
-            type="text"
-            name="department"
-            value={newEmployee.department}
-            onChange={handleInputChange}
-            placeholder="Department"
-          />
-          <button type="submit">Add Employee</button>
-        </form>
-      </div>
-    );
+function AllEmployeesContainer() {
+  const employees = useSelector((state) => state.employees);
+  const dispatch = useDispatch();
+  const [newEmployee, setNewEmployee] = useState({ firstname: '', lastname: '', department: '' });
+
+  useEffect(() => {
+    dispatch(fetchEmployees());
+  }, [dispatch]);
+
+  const handleAddEmployee = async (event) => {
+    event.preventDefault();
+    const result = await dispatch(addEmployee(newEmployee));
+    if (result) {
+      console.log('Employee added:', result);
+      setNewEmployee({ firstname: '', lastname: '', department: '' }); 
+    } else {
+      console.error('Failed to add employee');
+    }
   };
-  
-  export default AllEmployeesContainer;
+
+  const handleDeleteEmployee = (id) => {
+    dispatch(deleteEmployee(id));
+  };
+
+  return (
+    <div>
+      <AllEmployeesView employees={employees} onDelete={handleDeleteEmployee} />
+      <form onSubmit={handleAddEmployee}>
+        <input 
+          type="text" 
+          placeholder="First Name" 
+          value={newEmployee.firstname} 
+          onChange={(e) => setNewEmployee({ ...newEmployee, firstname: e.target.value })} 
+        />
+        <input 
+          type="text" 
+          placeholder="Last Name" 
+          value={newEmployee.lastname} 
+          onChange={(e) => setNewEmployee({ ...newEmployee, lastname: e.target.value })} 
+        />
+        <input 
+          type="text" 
+          placeholder="Department" 
+          value={newEmployee.department} 
+          onChange={(e) => setNewEmployee({ ...newEmployee, department: e.target.value })} 
+        />
+        <button type="submit">Add Employee</button>
+      </form>
+    </div>
+  );
+}
+
+export default AllEmployeesContainer;
