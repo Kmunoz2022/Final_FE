@@ -52,8 +52,16 @@ export const addTask = task => async (dispatch) => {
 
 export const editTask = task => async dispatch => {
   try {
-    let res = await axios.put(`${PATH}/${task.id}`, task);
-    dispatch({type: 'tasks/taskUpdated', payload: res.data});
+    const updatedTask = {
+      content: task.content,
+      priority: task.priority, 
+      completed: task.completed, 
+      employeeId: task.employeeId || null,
+    };
+
+    const res = await axios.put(`${PATH}/${task.id}`, updatedTask);
+
+    dispatch({ type: 'tasks/taskUpdated', payload: res.data });
   } catch (err) {
     console.error('Failed to edit task:', err);
   }

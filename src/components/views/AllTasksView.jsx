@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const AllTasksView = ({ tasks, onDelete, handleSubmit, formData, setFormData, errors }) => {
+const AllTasksView = ({ tasks, onDelete }) => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -17,36 +17,19 @@ const AllTasksView = ({ tasks, onDelete, handleSubmit, formData, setFormData, er
             <li key={task.id}>
               {task.content} - {task.priority} - {task.completed ? "Completed" : "Pending"}
               <button onClick={() => onDelete(task.id)}>Delete</button>
+              <Link to={`/tasks/${task.id}`}>Edit</Link> {/* Link to edit the task */}
             </li>
           ))}
         </ul>
       ) : (
         <p>No tasks found.</p>
       )}
-      
-      {/* Add New Task Form */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="content"
-          placeholder="Task Content"
-          value={formData.content}
-          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-        />
-        {errors.content && <span>{errors.content}</span>}
-        <input
-          type="text"
-          name="priority"
-          placeholder="Priority"
-          value={formData.priority}
-          onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-        />
-        {errors.priority && <span>{errors.priority}</span>}
-        <button type="submit">Add Task</button>
-      </form>
+
+      {/* Link to Add New Task */}
+      <Link to="/tasks/new">Add New Task</Link>
 
       {/* Go Back Button */}
-      <button onClick={handleGoBack}>Go Back</button>
+      <Link to={`/`}><button>Home</button></Link>
     </div>
   );
 };

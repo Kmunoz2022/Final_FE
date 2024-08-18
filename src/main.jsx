@@ -6,6 +6,8 @@ import App from "./App.jsx";
 import AllEmployeesContainer from "./components/containers/allEmployeesContainer.jsx";
 import AllTasksContainer from "./components/containers/AllTasksContainer.jsx";
 import SingleTaskContainer from "./components/containers/SingleTaskContainer.jsx";
+import EditTaskContainer from "./components/containers/EditTaskContainer.jsx";
+import NewTaskContainer from "./components/containers/NewTaskContainer.jsx";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
   {
     path: "/tasks/:taskId",
     element: <SingleTaskContainer />,
+  },
+  {
+    path: "/tasks/:taskId/edit",
+    element: <EditTaskContainer />,
+  },
+  {
+    path: "/tasks/new",
+    element: <NewTaskContainer />,
   },
 ]);
 
